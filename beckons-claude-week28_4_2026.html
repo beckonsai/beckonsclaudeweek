@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Week — Beckons</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap');
+  :root{--beckons-red:#5F0002;--beckons-red-dark:#3d0001;--beckons-black:#1a1916;--beckons-cream:#f5f1ea;--beckons-warm:#e8e0d0;--beckons-gold:#b8955a;--beckons-gold-light:#d4b07a;--beckons-muted:#7a756b;--beckons-forest:#2d3b2a;--beckons-terracotta:#a05840;--section-max:820px}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'DM Sans',sans-serif;background:var(--beckons-cream);color:var(--beckons-black);line-height:1.7;font-size:15px}
+  .hero{background:var(--beckons-red);color:var(--beckons-cream);padding:64px 40px 56px;text-align:center;position:relative;overflow:hidden}
+  .hero::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 20% 0%,rgba(255,255,255,0.06) 0%,transparent 55%),radial-gradient(ellipse at 85% 100%,rgba(0,0,0,0.25) 0%,transparent 60%);pointer-events:none}
+  .hero-eyebrow{font-size:11px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:rgba(245,241,234,0.65);margin-bottom:20px}
+  .hero h1{font-family:'Cormorant Garamond',serif;font-size:58px;font-weight:300;line-height:1.1;margin-bottom:16px;position:relative;color:rgba(245,241,234,0.8)}
+  .hero h1 em{font-style:italic;color:rgba(245,241,234,0.8)}
+  .hero-sub{font-size:15px;color:rgba(245,241,234,0.65);max-width:520px;margin:0 auto 32px;font-weight:300}
+  .hero-dates{display:inline-flex;align-items:center;gap:10px;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);border-radius:100px;padding:8px 20px;font-size:13px;color:rgba(245,241,234,0.85);letter-spacing:0.05em}
+  .nav{background:white;border-bottom:1px solid rgba(26,25,22,0.1);position:sticky;top:0;z-index:100;padding:0 24px}
+  .nav-inner{max-width:var(--section-max);margin:0 auto;display:flex;gap:0;overflow-x:auto;scrollbar-width:none}
+  .nav-inner::-webkit-scrollbar{display:none}
+  .nav-btn{padding:11px 11px;font-family:'DM Sans',sans-serif;font-size:11.5px;font-weight:400;color:var(--beckons-muted);background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;white-space:nowrap;transition:all 0.2s;letter-spacing:0.01em}
+  .nav-btn:hover{color:var(--beckons-black)}
+  .nav-btn.active{color:var(--beckons-black);border-bottom-color:var(--beckons-red);font-weight:500}
+  .section{display:none;max-width:var(--section-max);margin:0 auto;padding:48px 40px 64px}
+  .section.active{display:block}
+  .section-label{font-size:11px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--beckons-gold);margin-bottom:12px}
+  .section h2{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:400;line-height:1.2;margin-bottom:12px}
+  .section-intro{font-size:15px;color:var(--beckons-muted);max-width:600px;margin-bottom:40px;font-weight:300;line-height:1.8}
+  .card-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:32px}
+  .card-grid-5{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-bottom:32px}
+  @media(max-width:780px){.card-grid-5{grid-template-columns:repeat(3,1fr)}}
+  @media(max-width:580px){.card-grid{grid-template-columns:1fr}.card-grid-5{grid-template-columns:repeat(2,1fr)}}
+  .card{background:white;border:1px solid rgba(26,25,22,0.08);border-radius:12px;padding:24px;transition:border-color 0.2s,transform 0.2s}
+  .card:hover{border-color:var(--beckons-gold);transform:translateY(-2px)}
+  .card-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;font-size:20px}
+  .card-icon.gold{background:rgba(184,149,90,0.12)}
+  .card-icon.forest{background:rgba(45,59,42,0.1)}
+  .card-icon.terra{background:rgba(160,88,64,0.1)}
+  .card-icon.blue{background:rgba(59,100,160,0.1)}
+  .card h3{font-size:15px;font-weight:500;margin-bottom:8px}
+  .card p{font-size:13px;color:var(--beckons-muted);line-height:1.6}
+  .card.restricted{border-style:dashed;opacity:0.75}
+  .card.restricted .badge{display:inline-block;font-size:11px;font-weight:500;letter-spacing:0.05em;text-transform:uppercase;background:rgba(160,88,64,0.1);color:var(--beckons-terracotta);border-radius:4px;padding:3px 8px;margin-bottom:10px}
+  .tip-list{list-style:none;display:flex;flex-direction:column;gap:12px;margin-bottom:32px}
+  .tip-list li{background:white;border:1px solid rgba(26,25,22,0.08);border-left:3px solid var(--beckons-gold);border-radius:0 8px 8px 0;padding:16px 20px;font-size:14px;line-height:1.6}
+  .tip-list li strong{display:block;font-weight:500;margin-bottom:4px;font-size:13px;text-transform:uppercase;letter-spacing:0.05em;color:var(--beckons-gold)}
+  .tip-list li.highlight{border-left-color:var(--beckons-forest);background:rgba(45,59,42,0.04)}
+  .tip-list li.highlight strong{color:var(--beckons-forest)}
+  .example-box{background:var(--beckons-black);color:var(--beckons-cream);border-radius:12px;padding:28px 32px;margin-bottom:32px}
+  .example-box .ex-label{font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--beckons-gold);margin-bottom:14px;font-weight:500}
+  .example-prompt{font-family:'Cormorant Garamond',serif;font-size:18px;font-style:italic;font-weight:300;color:rgba(245,241,234,0.9);line-height:1.6;margin-bottom:12px;border-left:2px solid var(--beckons-gold);padding-left:16px}
+  .example-note{font-size:13px;color:rgba(245,241,234,0.5);padding-left:18px}
+  .divider{border:none;border-top:1px solid rgba(26,25,22,0.08);margin:32px 0}
+  .h3-section{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:400;margin-bottom:16px;margin-top:32px}
+  .do-dont{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:32px}
+  @media(max-width:580px){.do-dont{grid-template-columns:1fr}}
+  .do-box,.dont-box{border-radius:10px;padding:20px}
+  .do-box{background:rgba(45,59,42,0.06);border:1px solid rgba(45,59,42,0.15)}
+  .dont-box{background:rgba(160,88,64,0.06);border:1px solid rgba(160,88,64,0.15)}
+  .do-box .label{font-size:11px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--beckons-forest);margin-bottom:10px}
+  .dont-box .label{font-size:11px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--beckons-terracotta);margin-bottom:10px}
+  .do-box ul,.dont-box ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+  .do-box li,.dont-box li{font-size:13px;line-height:1.5;padding-left:16px;position:relative}
+  .do-box li::before{content:'✓';position:absolute;left:0;color:var(--beckons-forest);font-weight:500}
+  .dont-box li::before{content:'✗';position:absolute;left:0;color:var(--beckons-terracotta);font-weight:500}
+  .callout{background:rgba(184,149,90,0.08);border:1px solid rgba(184,149,90,0.25);border-radius:10px;padding:20px 24px;font-size:14px;line-height:1.7;margin-bottom:24px}
+  .callout strong{color:var(--beckons-gold);font-weight:500}
+  .week-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:32px}
+  @media(max-width:580px){.week-grid{grid-template-columns:1fr 1fr}}
+  .day-card{background:white;border:1px solid rgba(26,25,22,0.08);border-radius:10px;padding:16px}
+  .day-card .day-name{font-size:11px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--beckons-gold);margin-bottom:6px}
+  .day-card .day-date{font-size:22px;font-family:'Cormorant Garamond',serif;font-weight:300;margin-bottom:8px}
+  .day-card .day-focus{font-size:12px;color:var(--beckons-muted);line-height:1.5}
+  .section-footer{display:flex;justify-content:space-between;align-items:center;margin-top:48px;padding-top:24px;border-top:1px solid rgba(26,25,22,0.08)}
+  .nav-arrow{padding:10px 20px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;border:1px solid rgba(26,25,22,0.15);border-radius:100px;background:none;cursor:pointer;transition:all 0.2s;color:var(--beckons-black)}
+  .nav-arrow:hover{background:var(--beckons-black);color:var(--beckons-cream);border-color:var(--beckons-black)}
+  .nav-arrow.primary{background:var(--beckons-red);color:white;border-color:var(--beckons-red)}
+  .nav-arrow.primary:hover{background:var(--beckons-red-dark);border-color:var(--beckons-red-dark)}
+  .feature-row{display:flex;gap:16px;align-items:flex-start;padding:20px 0;border-bottom:1px solid rgba(26,25,22,0.06)}
+  .feature-row:last-child{border-bottom:none}
+  .feature-icon{width:36px;height:36px;border-radius:8px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:17px}
+  .feature-row h4{font-size:14px;font-weight:500;margin-bottom:4px}
+  .feature-row p{font-size:13px;color:var(--beckons-muted);line-height:1.6}
+  .model-table{width:100%;border-collapse:collapse;margin-bottom:32px;font-size:13px}
+  .model-table th{padding:10px 14px;text-align:left;font-weight:500;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--beckons-muted);border-bottom:2px solid rgba(26,25,22,0.1)}
+  .model-table td{padding:12px 14px;border-bottom:1px solid rgba(26,25,22,0.06);vertical-align:top;line-height:1.5}
+  .model-table tr:last-child td{border-bottom:none}
+  .model-badge{display:inline-block;font-size:11px;font-weight:500;letter-spacing:0.05em;padding:3px 10px;border-radius:100px}
+  .badge-opus{background:rgba(95,0,2,0.1);color:var(--beckons-red)}
+  .badge-sonnet{background:rgba(184,149,90,0.12);color:#8a6a30}
+  .badge-haiku{background:rgba(45,59,42,0.1);color:var(--beckons-forest)}
+  .model-name{font-weight:500;font-size:14px;display:block;margin-bottom:4px}
+  @media(max-width:580px){.hero h1{font-size:38px}.section{padding:32px 20px 48px}.hero{padding:48px 24px 40px}.nav{padding:0 8px}.nav-btn{padding:10px 8px;font-size:10.5px}}
+
+  .hero-logo{display:block;width:64px;height:64px;margin:0 auto 20px;opacity:0.92}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <img class="hero-logo" src="data:image/jpeg;base64,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" alt="Beckons logo">
+  <div class="hero-eyebrow">Beckons · Internal Training</div>
+  <h1>Welcome to <em>Claude Week</em></h1>
+  <p class="hero-sub">Your guide to working smarter with AI — practical skills, real use cases, and best practices for the Beckons team.</p>
+  <div class="hero-dates">4 – 9 May 2026</div>
+</div>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <button class="nav-btn active" onclick="showSection('overview')">Overview</button>
+    <button class="nav-btn" onclick="showSection('products')">Products guide</button>
+    <button class="nav-btn" onclick="showSection('models')">Sonnet / Opus / Haiku</button>
+    <button class="nav-btn" onclick="showSection('tips')">Tips &amp; tricks</button>
+    <button class="nav-btn" onclick="showSection('prompting')">Prompting</button>
+    <button class="nav-btn" onclick="showSection('usecases')">Use cases</button>
+    <button class="nav-btn" onclick="showSection('m365')">M365 setup</button>
+    <button class="nav-btn" onclick="showSection('safety')">Privacy &amp; safety</button>
+    <button class="nav-btn" onclick="showSection('bestpractices')">Best practices</button>
+  </div>
+</nav>
+
+<!-- OVERVIEW -->
+<section id="overview" class="section active">
+  <div class="section-label">Week of 4 May 2026</div>
+  <h2>Your week at a glance</h2>
+  <p class="section-intro">Claude Week is a chance for every Beckons team member to discover how AI can support their day-to-day work — from drafting guest communications to analysing data, researching competitors, and more.</p>
+
+  <h3 class="h3-section">What you'll be able to do after Claude Week</h3>
+  <div class="card-grid">
+    <div class="card"><div class="card-icon gold">✦</div><h3>Find the right tool</h3><p>Understand when to use Chat, Projects, or integrations — and choose the right one every time.</p></div>
+    <div class="card"><div class="card-icon forest">⬡</div><h3>Prompt with confidence</h3><p>Write prompts that get great results first time, with practical techniques and real examples.</p></div>
+    <div class="card"><div class="card-icon terra">◈</div><h3>Use it safely</h3><p>Know what to share, what not to share, and how to protect guest and commercial data.</p></div>
+    <div class="card"><div class="card-icon blue">◉</div><h3>Apply it to your role</h3><p>Leave with use cases specific to your team — ready to try the same afternoon.</p></div>
+  </div>
+  <div class="callout"><strong>New to Claude?</strong> That's completely fine — this training is designed from the ground up for people who are new to AI tools. No technical background needed.</div>
+  <div class="section-footer"><span></span><button class="nav-arrow primary" onclick="showSection('products')">Products guide →</button></div>
+</section>
+
+<!-- PRODUCTS GUIDE -->
+<section id="products" class="section">
+  <div class="section-label">Where to find Claude</div>
+  <h2>Products guide</h2>
+  <p class="section-intro">Claude lives in a few different places. Here's what each one is for, and which ones Beckons uses day-to-day.</p>
+  <h3 class="h3-section">Claude Chat</h3>
+  <div class="card" style="margin-bottom:16px;"><div style="display:flex;gap:16px;align-items:flex-start;"><div class="card-icon gold" style="margin:0;flex-shrink:0;">💬</div><div><h3 style="margin-bottom:6px;">claude.ai — your everyday starting point</h3><p>Open a new conversation and just start typing. Great for one-off tasks: drafting an email, summarising a document, getting a quick answer, or brainstorming ideas. Think of it like a very capable colleague who never gets tired of questions.</p><p style="margin-top:8px;font-size:13px;color:var(--beckons-muted);">Best for: ad hoc tasks · exploring ideas · quick answers · drafting</p></div></div></div>
+  <h3 class="h3-section">Projects</h3>
+  <div class="card" style="margin-bottom:16px;"><div style="display:flex;gap:16px;align-items:flex-start;"><div class="card-icon forest" style="margin:0;flex-shrink:0;">📁</div><div><h3 style="margin-bottom:6px;">Projects — persistent context for ongoing work</h3><p>A Project is a dedicated workspace that remembers context across conversations. You can upload documents, set a system prompt (custom instructions), and all chats within that project share the same background knowledge. Perfect for ongoing workstreams.</p><p style="margin-top:8px;font-size:13px;color:var(--beckons-muted);">Best for: recurring workflows · team projects · document-heavy tasks</p></div></div></div>
+  <div class="example-box"><div class="ex-label">Example — Reservations Project</div><div class="example-prompt">"I've set up a Project for the Reservations team with our rate plans, property FAQs, and tone of voice guide uploaded. Every chat in this project automatically knows all of that."</div><div class="example-note">→ No need to re-paste documents every time. Claude remembers.</div></div>
+  <h3 class="h3-section">Skills</h3>
+  <div class="card" style="margin-bottom:16px;"><div style="display:flex;gap:16px;align-items:flex-start;"><div class="card-icon gold" style="margin:0;flex-shrink:0;">⚡</div><div><h3 style="margin-bottom:6px;">Skills — one-click workflows</h3><p>Skills are repeatable, pre-configured workflows built for specific tasks. Instead of writing the same prompt every time, a Skill packages it up so anyone can run it in one click. Think of it as a macro for AI tasks.</p><p style="margin-top:8px;font-size:13px;color:var(--beckons-muted);">Example Skills at Beckons: Daily Guest Manifest · EDM drafting · Rate plan summaries</p></div></div></div>
+  <h3 class="h3-section">Design &amp; Artifacts</h3>
+  <div class="card" style="margin-bottom:16px;"><div style="display:flex;gap:16px;align-items:flex-start;"><div class="card-icon terra" style="margin:0;flex-shrink:0;">🎨</div><div><h3 style="margin-bottom:6px;">Design / Artifacts — create documents and visuals</h3><p>Claude can produce downloadable files — Word documents, Excel spreadsheets, PDFs, slide decks, images, HTML pages and more. When Claude creates a file, you'll see a download button appear. Great for producing polished outputs without formatting them yourself.</p><p style="margin-top:8px;font-size:13px;color:var(--beckons-muted);">Best for: reports · templates · formatted outputs · visual summaries</p></div></div></div>
+  <h3 class="h3-section">Code — not for general use</h3>
+  <div class="card restricted" style="margin-bottom:16px;"><div class="badge">Restricted — IT approval required</div><div style="display:flex;gap:16px;align-items:flex-start;"><div class="card-icon" style="margin:0;flex-shrink:0;background:rgba(160,88,64,0.1);">🖥️</div><div><h3 style="margin-bottom:6px;">Claude Code — developer tool only</h3><p>Claude Code is a command-line tool designed for writing and running software code. It connects directly to your computer's file system and can execute commands. This is a powerful technical tool that should only be used by approved team members with a clear technical need and IT sign-off.</p><p style="margin-top:8px;font-size:13px;color:var(--beckons-terracotta);">Not for general business use. Please do not install without speaking to your manager and IT first.</p></div></div></div>
+  <div class="section-footer"><button class="nav-arrow" onclick="showSection('overview')">← Overview</button><button class="nav-arrow primary" onclick="showSection('models')">Sonnet / Opus / Haiku →</button></div>
+</section>
+
+<!-- MODELS -->
+<section id="models" class="section">
+  <div class="section-label">Choosing the right model</div>
+  <h2>Sonnet, Opus &amp; Haiku</h2>
+  <p class="section-intro">Claude comes in three versions — think of them as different gears. Each one is optimised for a different balance of speed, depth, and cost. When you're on claude.ai, you can choose which model to use from the conversation selector.</p>
+  <table class="model-table">
+    <thead><tr><th>Model</th><th>Best for</th><th>Speed</th><th>Depth</th></tr></thead>
+    <tbody>
+      <tr><td><span class="model-name">Claude Opus</span><span class="model-badge badge-opus">Most powerful</span></td><td>Complex reasoning, M&amp;A analysis, multi-step financial modelling, long-document synthesis, nuanced strategic work</td><td>Slower</td><td>Deepest</td></tr>
+      <tr><td><span class="model-name">Claude Sonnet</span><span class="model-badge badge-sonnet">Recommended default</span></td><td>The best all-rounder — handles almost everything well. Drafting, analysis, summarising. Use this for 90% of your daily tasks.</td><td>Fast</td><td>Strong</td></tr>
+      <tr><td><span class="model-name">Claude Haiku</span><span class="model-badge badge-haiku">Fastest</span></td><td>Simple, quick tasks: short replies, formatting, basic Q&amp;A, repetitive processing where speed matters more than depth</td><td>Fastest</td><td>Good</td></tr>
+    </tbody>
+  </table>
+  <div class="callout"><strong>Which should I use at Beckons?</strong> Start with Sonnet for everything — it's fast, capable, and handles the vast majority of business tasks excellently. Switch to Opus when you need deep analysis: complex financial models, M&amp;A screening, lengthy due diligence documents, or anything where you want Claude to think hard and not cut corners. Use Haiku for high-volume, simple tasks where you want near-instant responses.</div>
+  <h3 class="h3-section">When to switch models — quick guide</h3>
+  <ul class="tip-list">
+    <li><strong>Stick with Sonnet (default)</strong>Drafting emails, summarising documents, writing SOPs, analysing short data sets, guest communications, marketing copy, meeting prep, and most day-to-day work.</li>
+    <li><strong>Upgrade to Opus</strong>M&amp;A target screening and due diligence synthesis · Underwriting and ROI analysis · Complex multi-document analysis · Board-level strategic memos · Anything where you need Claude to reason carefully through ambiguous or high-stakes material. If the output really matters, reach for Opus.</li>
+    <li><strong>Drop to Haiku</strong>Quickly reformatting a table · Translating a short passage · Generating a list of options · Simple classification tasks · Any task where the output is simple and you want it instantly.</li>
+  </ul>
+  <div class="example-box">
+    <div class="ex-label">Model selection in practice</div>
+    <div class="example-prompt">"I need to draft a quick reply to a guest enquiry about Silky Oaks availability."</div>
+    <div class="example-note">→ Sonnet is perfect. Fast and polished.</div>
+    <div style="margin-top:20px;" class="example-prompt">"I need to build a screening memo for a potential acquisition target in Africa, cross-referencing their financials against our underwriting criteria."</div>
+    <div class="example-note">→ Use Opus. This needs careful, deep reasoning — don't rush it.</div>
+  </div>
+  <div class="section-footer"><button class="nav-arrow" onclick="showSection('products')">← Products guide</button><button class="nav-arrow primary" onclick="showSection('tips')">Tips &amp; tricks →</button></div>
+</section>
+
+<!-- TIPS & TRICKS -->
+<section id="tips" class="section">
+  <div class="section-label">Best practice</div>
+  <h2>Tips &amp; tricks</h2>
+  <p class="section-intro">A few habits that separate good Claude use from great Claude use. These apply across everything — Chat, Projects, and Skills.</p>
+  <ul class="tip-list">
+    <li><strong>Give context, not just a task</strong>Instead of "write an email", try "write an email to a past guest of Southern Ocean Lodge inviting them to return this winter — warm and personal, not promotional." The more context you give, the better the output.</li>
+    <li><strong>Tell Claude who it's writing for</strong>Specify the audience. "Write this for someone who doesn't know Beckons" gives very different results to "write this for a loyal guest who has stayed three times." Claude tailors its language accordingly.</li>
+    <li><strong>Say what you don't want</strong>Negative instructions are just as useful as positive ones. "Keep it under 150 words and don't use exclamation marks" helps Claude avoid common pitfalls before it starts.</li>
+    <li class="highlight"><strong>Invite Claude to ask clarifying questions</strong>End your prompt with: <em>"If you need any clarification before you start, please ask me."</em> This gives Claude permission to check assumptions rather than guess — especially useful for complex or ambiguous tasks. You'll often get a better result with one short exchange than by going back and forth on a poor first draft.</li>
+    <li><strong>Ask Claude to improve, not just redo</strong>If the first response isn't quite right, don't just ask again — tell Claude what to change. "That's good but make it 30% shorter and more conversational" is much more effective than starting over.</li>
+    <li><strong>Use Projects for anything recurring</strong>If you find yourself pasting the same documents or instructions into Claude more than twice, create a Project. Upload your SOPs, brand guides, or rate plans once and they're always there.</li>
+    <li><strong>Choose the right model for the task</strong>Sonnet for everyday work, Opus for deep analysis and high-stakes outputs, Haiku for quick simple tasks. See the Sonnet / Opus / Haiku section for a full guide.</li>
+    <li><strong>Ask Claude to think out loud</strong>For complex tasks, add "think through this step by step" or "explain your reasoning." You'll often catch issues before they become problems, and the output will be more considered.</li>
+    <li><strong>Verify before you send</strong>Claude is highly capable but not infallible — especially for facts, figures, and dates. Always review outputs before sending externally. Think of Claude as a first-draft writer, not a final authority.</li>
+    <li><strong>Use it to think, not just to write</strong>Some of the best uses of Claude aren't writing tasks at all — "help me think through the pros and cons of these two approaches" or "what am I missing in this plan?" are incredibly valuable.</li>
+  </ul>
+  <div class="do-dont">
+    <div class="do-box"><div class="label">Do</div><ul><li>Give Claude a clear role ("act as a revenue analyst")</li><li>Specify tone, length, and format upfront</li><li>Share relevant documents and context</li><li>Invite Claude to ask questions if anything is unclear</li><li>Choose Opus for complex, high-stakes tasks</li><li>Iterate — the second response is usually better</li></ul></div>
+    <div class="dont-box"><div class="label">Don't</div><ul><li>Paste guest names, credit card details, or passports</li><li>Share confidential M&amp;A or board-level documents</li><li>Send Claude's output without reviewing it first</li><li>Assume Claude knows Beckons — tell it</li><li>Install Claude Code without IT approval</li></ul></div>
+  </div>
+  <div class="section-footer"><button class="nav-arrow" onclick="showSection('models')">← Models guide</button><button class="nav-arrow primary" onclick="showSection('prompting')">Prompting →</button></div>
+</section>
+
+<!-- PROMPTING -->
+<section id="prompting" class="section">
+  <div class="section-label">Getting great results</div>
+  <h2>How to write a great prompt</h2>
+  <p class="section-intro">Prompting is a skill — but a learnable one. The framework below will help you get better results faster, whatever you're working on.</p>
+  <div class="card-grid-5">
+    <div class="card"><div style="font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:300;color:var(--beckons-gold);margin-bottom:8px;">R</div><h3>Role</h3><p>Tell Claude who to be. "Act as a luxury hospitality copywriter with 15 years of experience."</p></div>
+    <div class="card"><div style="font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:300;color:var(--beckons-gold);margin-bottom:8px;">C</div><h3>Context</h3><p>Give background. "Beckons is a collection of luxury lodges across Australia, NZ and Fiji."</p></div>
+    <div class="card"><div style="font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:300;color:var(--beckons-gold);margin-bottom:8px;">T</div><h3>Task</h3><p>Be specific about what you need. "Write a 200-word winter campaign email for past guests."</p></div>
+    <div class="card"><div style="font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:300;color:var(--beckons-gold);margin-bottom:8px;">F</div><h3>Format</h3><p>Specify the output. "Return as a Word document with subject line, preview text, and body."</p></div>
+    <div class="card" style="border-left:3px solid var(--beckons-forest);border-radius:0 12px 12px 0;"><div style="font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:300;color:var(--beckons-forest);margin-bottom:8px;">+Q</div><h3>Ask for questions</h3><p>End every prompt with: <em>"If you need any clarification, please ask me before you start."</em></p></div>
+  </div><!-- end card-grid-5 -->
+  <h3 class="h3-section">See it in action</h3>
+  <div class="example-box"><div class="ex-label">Weak prompt</div><div class="example-prompt">"Write an email about our winter offer."</div><div class="example-note">→ Claude has no idea who this is for, what the offer is, or what tone to use. The result will be generic.</div></div>
+  <div class="example-box" style="background:var(--beckons-forest);"><div class="ex-label">Strong prompt — RCTF + Q</div><div class="example-prompt">"You're a luxury travel copywriter. Write a 180-word email for Beckons targeting past guests of The Louise in the Barossa Valley. The goal is to drive bookings for May–July with our new winter tasting menu experience. Tone: warm, personal, evocative — not promotional. Return the email with a subject line and two-sentence preview text. Avoid exclamation marks. If you need any clarification before you start, please ask me."</div><div class="example-note">→ Claude now has everything it needs — and permission to check anything it doesn't.</div></div>
+  <h3 class="h3-section">Useful phrases to keep handy</h3>
+  <ul class="tip-list">
+    <li><strong>To set the scene</strong>"You are [role]. Your audience is [who]. The context is [background]."</li>
+    <li><strong>To specify format</strong>"Return this as bullet points / a Word doc / a table / under 200 words."</li>
+    <li><strong>To iterate</strong>"That's good. Now make it 30% shorter and more conversational."</li>
+    <li><strong>To pressure-test</strong>"What are the three weakest points in this argument? What am I missing?"</li>
+    <li><strong>To get options</strong>"Give me three different versions of this — one formal, one casual, one short."</li>
+    <li class="highlight"><strong>To invite clarification</strong>"If you need any clarification before you start, please ask me." — Add this to the end of any prompt where the brief is complex or there's room for interpretation. It costs nothing and often saves a round of revision.</li>
+  </ul>
+  <div class="section-footer"><button class="nav-arrow" onclick="showSection('tips')">← Tips &amp; tricks</button><button class="nav-arrow primary" onclick="showSection('usecases')">Use cases →</button></div>
+</section>
+
+<!-- USE CASES -->
+<section id="usecases" class="section">
+  <div class="section-label">Real applications</div>
+  <h2>Use cases by team</h2>
+  <p class="section-intro">Practical, ready-to-try examples drawn from Beckons workflows. Claude is already being used across the business — pick the use cases relevant to your team and try one today.</p>
+  <div class="feature-row"><div class="feature-icon" style="background:rgba(184,149,90,0.1);">📊</div><div><h4>Finance &amp; Strategy</h4><p>Monthly commentary drafts · budget variance analysis · board update summaries · competitor benchmarking · <strong>Balance sheet reconciliations</strong> — upload trial balance data and ask Claude to identify discrepancies, flag variances, and draft a reconciliation summary · <strong>M&amp;A Screener</strong> — identify one or many potential M&amp;A opportunities and ask Claude to assess fit against Beckons' acquisition criteria, flag risks, and draft an initial screening memo · <strong>Underwriting Models</strong> — underwrite ROI on Capex projects and calculate returns to assess whether a project is viable</p></div></div>
+  <div class="feature-row"><div class="feature-icon" style="background:rgba(45,59,42,0.1);">📅</div><div><h4>Revenue Management</h4><p>Rate plan descriptions · channel strategy summaries · pick-up report narratives · pace analysis commentary · promotional offer copy · OTA listing improvements</p></div></div>
+  <div class="feature-row"><div class="feature-icon" style="background:rgba(59,100,160,0.1);">✉️</div><div><h4>Reservations</h4><p>Guest enquiry responses · upsell email drafts · cancellation policy explanations · pre-arrival communications · group enquiry follow-ups · FAQ documents</p></div></div>
+  <div class="feature-row"><div class="feature-icon" style="background:rgba(160,88,64,0.1);">🌿</div><div><h4>Marketing &amp; Commercial</h4><p>EDM campaigns · social captions · press release drafts · travel agent briefings · image caption writing · seasonal campaign concepts · competitive analysis</p></div></div>
+  <div class="feature-row"><div class="feature-icon" style="background:rgba(184,149,90,0.1);">🏡</div><div><h4>Property Operations</h4><p>Daily guest manifests · SOP drafting · briefing notes · guest experience feedback summaries · supplier correspondence · maintenance request summaries</p></div></div>
+  <div class="feature-row"><div class="feature-icon" style="background:rgba(45,59,42,0.1);">👥</div><div><h4>People &amp; Culture</h4><p>Job description drafting · onboarding guide summaries · policy document reviews · interview question generation · team communication drafts · training content · <strong>Rostering</strong> — upload a roster spreadsheet and ask Claude to check for coverage gaps, flag compliance issues (e.g. minimum rest periods), draft the roster summary for managers, or reformat it for a different system</p></div></div>
+  <hr class="divider">
+  <div class="callout"><strong>Try it now:</strong> Pick one use case from your team above. Open a new Claude chat and try it before this session ends. Remember to end your prompt with "If you need any clarification, please ask me."</div>
+  <div class="section-footer"><button class="nav-arrow" onclick="showSection('prompting')">← Prompting</button><button class="nav-arrow primary" onclick="showSection('m365')">M365 setup →</button></div>
+</section>
+
+<!-- M365 SETUP -->
+<section id="m365" class="section">
+  <div class="section-label">Connecting your tools</div>
+  <h2>Connecting Claude to Microsoft 365</h2>
+  <p class="section-intro">Claude can connect directly to your Microsoft 365 environment — Outlook, Teams, SharePoint, OneDrive, and Calendar. Once connected, Claude can find files, draft emails, check your calendar, and more without you having to copy-paste anything.</p>
+  <h3 class="h3-section">What you can do once connected</h3>
+  <div class="card-grid">
+    <div class="card"><div class="card-icon gold">📧</div><h3>Outlook</h3><p>Search your inbox, draft replies, find specific emails, and summarise threads without leaving Claude.</p></div>
+    <div class="card"><div class="card-icon forest">📂</div><h3>SharePoint &amp; OneDrive</h3><p>Find documents by name or topic, read file contents, and reference them in your prompts.</p></div>
+    <div class="card"><div class="card-icon terra">💬</div><h3>Teams</h3><p>Search chat messages, find past discussions, and surface relevant conversations.</p></div>
+    <div class="card"><div class="card-icon blue">📅</div><h3>Calendar</h3><p>Check availability, find upcoming meetings, and plan your schedule.</p></div>
+  </div>
+  <h3 class="h3-section">How to connect (takes 2 minutes)</h3>
+  <ul class="tip-list">
+    <li><strong>Step 1 — open Settings</strong>In Claude, click your profile icon in the bottom-left corner and select Settings.</li>
+    <li><strong>Step 2 — go to Integrations</strong>Select the Integrations tab (also sometimes shown as Connectors).</li>
+    <li><strong>Step 3 — find Microsoft 365</strong>Scroll to find Microsoft 365 and click Connect. You'll be prompted to sign in with your Beckons Microsoft account.</li>
+    <li><strong>Step 4 — authorise access</strong>Sign in with your Beckons credentials and approve the permissions. Claude will only read what you ask it to — it cannot send emails or modify files without your explicit instruction.</li>
+    <li><strong>Step 5 — try it</strong>Open a new chat and ask: "Find my most recent email about [topic]" or "What meetings do I have this week?"</li>
+  </ul>
+  <div class="callout"><strong>A note on permissions:</strong> Connecting M365 gives Claude read access to your business data within your Microsoft tenant. Claude does not store your emails or documents — it reads them in the moment to answer your question. If you're unsure about connecting, speak with your manager first.</div>
+  <div class="section-footer"><button class="nav-arrow" onclick="showSection('usecases')">← Use cases</button><button class="nav-arrow primary" onclick="showSection('safety')">Privacy &amp; safety →</button></div>
+</section>
+
+<!-- SAFETY -->
+<section id="safety" class="section">
+  <div class="section-label">Responsible use</div>
+  <h2>Privacy &amp; safety</h2>
+  <p class="section-intro">Claude is a powerful tool, and like all tools it works best when used responsibly. A few simple guidelines keep Beckons data safe and our guests' trust protected.</p>
+  <div class="do-dont">
+    <div class="do-box"><div class="label">Safe to share with Claude</div><ul><li>Anonymised or fictional examples</li><li>Internal documents you'd share in a team meeting</li><li>Rate plans and operational SOPs</li><li>Brand guidelines and tone of voice docs</li><li>General business context and background</li><li>Your own draft copy for review</li></ul></div>
+    <div class="dont-box"><div class="label">Never share with Claude</div><ul><li>Guest passport or ID details</li><li>Credit card or payment information</li><li>Sensitive HR or personal data</li><li>Confidential M&amp;A or board materials</li><li>Login credentials or passwords</li><li>Any data marked Confidential or Restricted</li></ul></div>
+  </div>
+  <h3 class="h3-section">Key principles</h3>
+  <ul class="tip-list">
+    <li><strong>Claude is not a search engine</strong>Information you share in a Claude conversation is not publicly searchable, but treat it with the same care as any business communication.</li>
+    <li><strong>Always review before sending</strong>Claude's outputs are drafts. Before any email, document, or communication goes external, a human should have read and approved it.</li>
+    <li><strong>Don't rely on Claude for facts</strong>Claude is very good at reasoning and writing, but it can make factual errors — especially with dates, figures, and recent events. Always verify.</li>
+    <li><strong>When in doubt, ask</strong>If you're unsure whether something is appropriate to share with Claude, ask your manager first.</li>
+  </ul>
+  <div class="callout"><strong>Questions?</strong> Reach out to the Finance &amp; Strategy team who are coordinating Claude Week. We're here to help you get the most from these tools — safely and confidently.</div>
+  <div class="section-footer"><button class="nav-arrow" onclick="showSection('m365')">← M365 setup</button><button class="nav-arrow primary" onclick="showSection('bestpractices')">Best practices →</button></div>
+</section>
+
+<!-- BEST PRACTICES -->
+<section id="bestpractices" class="section">
+  <div class="section-label">Responsible use</div>
+  <h2>Best practices</h2>
+  <p class="section-intro">Using AI well means using it responsibly. These guidelines apply to everyone at Beckons who uses Claude or any approved AI tool as part of their work.</p>
+
+  <h3 class="h3-section">Connectors and third-party integrations</h3>
+  <ul class="tip-list">
+    <li><strong>Connectors require approval before use</strong>Any integration that connects Claude to another system — including Microsoft 365, SharePoint, or any other third-party service via MCP or similar — must be reviewed and approved by the CFO and the Systems and Projects Manager before use. This applies even if the connected service is itself approved for Company use.</li>
+    <li><strong>What to include in your request</strong>When requesting a new Connector, include the name of the integration, what data or systems it will be able to access, confirmation the connected service is approved, and any relevant security or privacy terms covering the integration.</li>
+    <li><strong>Unapproved tools are off-limits</strong>Only tools on the Beckons Approved AI Tools list may be used for Company business. Personal, trial, or free-tier accounts must not be used for work purposes — no exceptions.</li>
+  </ul>
+
+  <h3 class="h3-section">Only use AI for tasks you can verify</h3>
+  <ul class="tip-list">
+    <li><strong>You remain responsible for the output</strong>AI can be inaccurate, incomplete, or biased. Before anything leaves your hands — an email, a document, a data summary — you must review it yourself. You are accountable for the work regardless of how it was produced.</li>
+    <li><strong>Don't use AI for decisions that require human judgment</strong>AI must not be used to make or automate decisions that are legal, regulatory, employment-related, financial, safety-critical, or customer-facing without meaningful human review and sign-off.</li>
+    <li><strong>AI is not a substitute for professional advice</strong>Outputs are not legal, financial, HR, or medical advice. If a task requires qualified expertise, seek it — don't rely on Claude as a replacement.</li>
+    <li><strong>Verify facts, figures, and dates</strong>Claude is highly capable at reasoning and writing but can make factual errors — especially with numbers and recent events. Always check before relying on or sharing any figures.</li>
+  </ul>
+
+  <h3 class="h3-section">Prompt responsibly</h3>
+  <ul class="tip-list">
+    <li><strong>Stay within usage limits</strong>Claude access is provisioned through Company enterprise accounts. Avoid high-volume, automated, or bulk prompting that could affect availability for other team members or breach vendor terms of service.</li>
+    <li><strong>Don't share Protected Information unnecessarily</strong>Before including any data in a prompt, ask whether you actually need it. Anonymise or summarise where you can. Guest passport or ID details, credit card information, sensitive HR data, confidential M&amp;A materials, login credentials, and anything marked Confidential or Restricted must never be entered into any AI tool.</li>
+    <li><strong>Don't try to work around controls</strong>Attempting to circumvent Beckons or vendor security, access, usage, or content controls is a breach of this policy regardless of intent.</li>
+    <li><strong>Be transparent about AI use</strong>You should be able to explain and stand behind any output where AI played a part. Where disclosure is legally or contractually required, make sure it happens. Don't represent AI-generated content as entirely human-created where that would be misleading.</li>
+  </ul>
+
+  <div class="do-dont">
+    <div class="do-box"><div class="label">Do</div><ul><li>Use only approved tools via your Company account</li><li>Request approval before connecting any third-party integration</li><li>Review all outputs before sending or acting on them</li><li>Anonymise data in prompts wherever possible</li><li>Keep AI use within reasonable day-to-day limits</li><li>Report any suspected policy breaches to the Systems and Projects Manager</li></ul></div>
+    <div class="dont-box"><div class="label">Don't</div><ul><li>Use personal or trial accounts for Company work</li><li>Connect new integrations without CFO and Systems Manager sign-off</li><li>Rely on AI for legal, financial, or HR decisions</li><li>Enter Protected Information unless strictly necessary and approved</li><li>Send or publish AI outputs without human review</li><li>Attempt to bypass content or usage controls</li></ul></div>
+  </div>
+
+  <div class="callout"><strong>Questions about this policy?</strong> Contact Dominic Gillespie at dominic.gillespie@beckons.com. This page reflects the Beckons AI Acceptable Use Policy — refer to the full policy document for complete terms.</div>
+  <div class="section-footer"><button class="nav-arrow" onclick="showSection('safety')">← Privacy &amp; safety</button><span></span></div>
+</section>
+
+<script>
+  const tabs=['overview','products','models','tips','prompting','usecases','m365','safety','bestpractices'];
+  function showSection(id){
+    tabs.forEach(t=>document.getElementById(t).classList.remove('active'));
+    document.querySelectorAll('.nav-btn').forEach((btn,i)=>{
+      if(tabs[i]===id)btn.classList.add('active');
+      else btn.classList.remove('active');
+    });
+    document.getElementById(id).classList.add('active');
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+</script>
+</body>
+</html>
