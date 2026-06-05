@@ -17,9 +17,10 @@
   .hero-sub{font-size:15px;color:rgba(245,241,234,0.65);max-width:520px;margin:0 auto 32px;font-weight:300}
   .hero-dates{display:inline-flex;align-items:center;gap:10px;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);border-radius:100px;padding:8px 20px;font-size:13px;color:rgba(245,241,234,0.85);letter-spacing:0.05em}
   .nav{background:white;border-bottom:1px solid rgba(26,25,22,0.1);position:sticky;top:0;z-index:100;padding:0 24px}
-  .nav-inner{max-width:var(--section-max);margin:0 auto;display:flex;gap:0;overflow-x:auto;scrollbar-width:none}
+  .nav-inner{max-width:var(--section-max);margin:0 auto;display:flex;gap:0;overflow-x:auto;scrollbar-width:none;padding-right:16px}
+  .nav-btn:last-child{padding-right:18px}
   .nav-inner::-webkit-scrollbar{display:none}
-  .nav-btn{padding:11px 11px;font-family:'DM Sans',sans-serif;font-size:11.5px;font-weight:400;color:var(--beckons-muted);background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;white-space:nowrap;transition:all 0.2s;letter-spacing:0.01em}
+  .nav-btn{padding:11px 9px;font-family:'DM Sans',sans-serif;font-size:11.5px;font-weight:400;color:var(--beckons-muted);background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;white-space:nowrap;transition:all 0.2s;letter-spacing:0.01em}
   .nav-btn:hover{color:var(--beckons-black)}
   .nav-btn.active{color:var(--beckons-black);border-bottom-color:var(--beckons-red);font-weight:500}
   .section{display:none;max-width:var(--section-max);margin:0 auto;padding:48px 40px 64px}
@@ -289,17 +290,18 @@
 <section id="safety" class="section">
   <div class="section-label">Responsible use</div>
   <h2>Privacy &amp; safety</h2>
-  <p class="section-intro">Claude is a powerful tool, and like all tools it works best when used responsibly. A few simple guidelines keep Beckons data safe and our guests' trust protected.</p>
+  <p class="section-intro">Claude is a powerful tool, and like all tools it works best when used responsibly. The core idea is simple: you own what you produce with AI, you check it before you rely on it, and you don't use it for work you couldn't stand behind yourself.</p>
   <div class="do-dont">
-    <div class="do-box"><div class="label">Safe to share with Claude</div><ul><li>Anonymised or fictional examples</li><li>Internal documents you'd share in a team meeting</li><li>Rate plans and operational SOPs</li><li>Brand guidelines and tone of voice docs</li><li>General business context and background</li><li>Your own draft copy for review</li></ul></div>
-    <div class="dont-box"><div class="label">Never share with Claude</div><ul><li>Guest passport or ID details</li><li>Credit card or payment information</li><li>Sensitive HR or personal data</li><li>Confidential M&amp;A or board materials</li><li>Login credentials or passwords</li><li>Any data marked Confidential or Restricted</li></ul></div>
+    <div class="do-box"><div class="label">Good practice</div><ul><li>Treat outputs as drafts and review them before you use or share them</li><li>Use Claude for work you can validate with your own judgment</li><li>Anonymize or summarize data where you reasonably can</li><li>Ask whether you actually need a piece of information before including it</li><li>Be ready to explain and stand behind anything AI helped you produce</li><li>Check Anthropic Claude and Microsoft Copilot are the approved tools for the job</li></ul></div>
+    <div class="dont-box"><div class="label">Handle with extra care</div><ul><li>Protected Information — guest, HR, payment, or confidential data</li><li>Confidential M&amp;A or board materials</li><li>Login credentials or passwords</li><li>Anything covered by a confidentiality agreement</li><li>Decisions needing human judgment — legal, financial, employment, safety, or guest-facing</li><li>Anything you couldn't check for accuracy yourself</li></ul></div>
   </div>
   <h3 class="h3-section">Key principles</h3>
   <ul class="tip-list">
-    <li><strong>Claude is not a search engine</strong>Information you share in a Claude conversation is not publicly searchable, but treat it with the same care as any business communication.</li>
-    <li><strong>Always review before sending</strong>Claude's outputs are drafts. Before any email, document, or communication goes external, a human should have read and approved it.</li>
-    <li><strong>Don't rely on Claude for facts</strong>Claude is very good at reasoning and writing, but it can make factual errors — especially with dates, figures, and recent events. Always verify.</li>
-    <li><strong>When in doubt, ask</strong>If you're unsure whether something is appropriate to share with Claude, ask your manager first.</li>
+    <li class="highlight"><strong>You own the output</strong>However it was produced, the work is yours. You remain responsible for what you share, send, or act on, so treat AI output as a starting point you refine and approve, not a finished answer.</li>
+    <li><strong>Validate before you rely on it</strong>Claude is strong at reasoning and writing but can be inaccurate, incomplete, or simply wrong, especially with dates, figures, and recent events. Check anything important against a source you trust before using it.</li>
+    <li><strong>Only use it for work you can check</strong>If you couldn't evaluate the output yourself, that's a sign not to lean on AI for it. Use Claude to go faster on work you understand, not to stand in for expertise you don't have.</li>
+    <li><strong>Keep human judgment in the loop</strong>Decisions that are legal, financial, employment-related, safety-critical, or guest-facing need a person to review and sign off. AI can help you prepare, but the call stays with you.</li>
+    <li><strong>When in doubt, ask</strong>If you're unsure whether something is appropriate to share with Claude or rely on, check with your manager or the Finance &amp; Strategy team first.</li>
   </ul>
   <div class="callout"><strong>Questions?</strong> Reach out to the Finance &amp; Strategy team who are coordinating Claude Week. We're here to help you get the most from these tools — safely and confidently.</div>
   <div class="section-footer"><button class="nav-arrow" onclick="showSection('m365')">← M365 setup</button><button class="nav-arrow primary" onclick="showSection('bestpractices')">Best practices →</button></div>
